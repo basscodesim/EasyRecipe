@@ -1,0 +1,96 @@
+/* Container for centering elements */
+.search-bar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  
+  /* Make the input and elements scale down on mobile */
+  input[type="text"],
+  select,
+  button {
+    width: 100%;
+    max-width: 320px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+  input[type="text"] {
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    background-color: #0288d1;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #026ca0;
+  }
+  
+  /* Style for the search history dropdown */
+  .search-history-dropdown {
+    position: absolute;
+    top: 60px; /* Adjust based on the input height */
+    width: 100%;
+    max-width: 320px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .search-history-item {
+    padding: 8px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .search-history-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Ensures the container doesn't overflow on mobile */
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Scroll fix */
+  html, body {
+    height: 100%;
+    overflow: auto;
+  }
+  
+  /* Responsive media query for screens less than 600px wide */
+  @media (max-width: 600px) {
+    .search-bar-container {
+      margin-top: 10px;
+    }
+  
+    input[type="text"],
+    select,
+    button {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    .search-history-dropdown {
+      top: 50px; /* Adjust for smaller screens */
+    }
+  }
+  
