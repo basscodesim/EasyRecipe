@@ -1,7 +1,8 @@
 import axios from 'axios';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import RecipeList from './RecipeList';
-import './RecipeSearch.css'; // Assuming we use RecipeSearch.css for styling
+import RecipeDetails from './RecipeDetails';
+import './RecipeSearch.css';
 
 function RecipeSearch() {
   const [ingredients, setIngredients] = useState('');
@@ -9,28 +10,71 @@ function RecipeSearch() {
   const [diet, setDiet] = useState('');
   const [recipes, setRecipes] = useState([]);
   const [searchHistory, setSearchHistory] = useState([]);
-  const [showHistory, setShowHistory] = useState(false); // State to show/hide search history
+  const [showHistory, setShowHistory] = useState(false);
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [favorites, setFavorites] = useState([]); // State for favorites
+
+  // Load favorites from local storage on component mount
+  useEffect(() => {
+    const savedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    setFavorites(savedFavorites);
+  }, []);
 
   const fetchRecipes = async () => {
     try {
       const response = await axios.get(
         `https://api.spoonacular.com/recipes/complexSearch?apiKey=54ec293cca554caebb7ad219199b9669&includeIngredients=${ingredients}&cuisine=${cuisine}&diet=${diet}`
       );
-      setRecipes(response.data.results);
+
+      const detailedRecipesPromises = response.data.results.map(async (recipe) => {
+        const recipeResponse = await axios.get(
+          `https://api.spoonacular.com/recipes/${recipe.id}/information?apiKey=54ec293cca554caebb7ad219199b9669`
+        );
+        return recipeResponse.data;
+      });
+
+      const detailedRecipes = await Promise.all(detailedRecipesPromises);
+      setRecipes(detailedRecipes);
     } catch (error) {
       console.error('Error fetching recipes:', error);
       alert('Error fetching recipes. Please try again.');
     }
   };
 
+  const handleSelectRecipe = (recipe) => {
+    console.log('Selected Recipe:', recipe);
+    setSelectedRecipe(recipe);
+  };
+
+  const handleCloseDetails = () => {
+    setSelectedRecipe(null);
+  };
+
   const handleSearch = () => {
-    setSearchHistory((prevHistory) => [...new Set([...prevHistory, ingredients])]); // Add new search to history
+    if (ingredients.trim() === '') {
+      alert('Please enter ingredients before searching.');
+      return;
+    }
+
+    setSearchHistory((prevHistory) => {
+      const newHistory = [...new Set([...prevHistory, ingredients])];
+      return newHistory;
+    });
     fetchRecipes();
   };
 
   const handleSelectHistory = (item) => {
-    setIngredients(item); // Autofill the search bar with the selected history item
-    setShowHistory(false); // Close the dropdown once selected
+    setIngredients(item);
+    setShowHistory(false);
+  };
+
+  const toggleFavorite = (recipe) => {
+    const newFavorites = favorites.includes(recipe.id)
+      ? favorites.filter((id) => id !== recipe.id)
+      : [...favorites, recipe.id];
+
+    setFavorites(newFavorites);
+    localStorage.setItem('favorites', JSON.stringify(newFavorites)); // Save to local storage
   };
 
   return (
@@ -43,11 +87,9 @@ function RecipeSearch() {
           placeholder="Enter ingredients (comma separated)"
           value={ingredients}
           onChange={(e) => setIngredients(e.target.value)}
-          onFocus={() => setShowHistory(true)} // Show search history when the input is focused
-          onBlur={() => setTimeout(() => setShowHistory(false), 100)} // Hide search history when the input loses focus, with a small delay to allow selection
+          onFocus={() => setShowHistory(true)}
+          onBlur={() => setTimeout(() => setShowHistory(false), 100)}
         />
-
-        {/* Search History Dropdown */}
         {showHistory && searchHistory.length > 0 && (
           <div className="search-history-dropdown">
             {searchHistory.map((item, index) => (
@@ -81,8 +123,16 @@ function RecipeSearch() {
         <button onClick={handleSearch}>Search Recipes</button>
       </div>
 
-      {/* Render the RecipeList component with recipes */}
-      <RecipeList recipes={recipes} />
+      {selectedRecipe ? (
+        <RecipeDetails 
+          recipe={selectedRecipe} 
+          onClose={handleCloseDetails} 
+          onToggleFavorite={toggleFavorite} // Pass the toggle function
+          isFavorite={favorites.includes(selectedRecipe.id)} // Check if it's a favorite
+        />
+      ) : (
+        <RecipeList recipes={recipes} onSelectRecipe={handleSelectRecipe} />
+      )}
     </div>
   );
 }

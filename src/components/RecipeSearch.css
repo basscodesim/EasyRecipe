@@ -1,14 +1,30 @@
 /* Container for centering elements */
 .search-bar-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-  }
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+  margin: 20px 0; /* Add some space above and below */
+}
+
+.dropdowns-container {
+  display: flex; /* Use flexbox to position dropdowns beside each other */
+  align-items: center; /* Align items vertically */
+  margin: 10px 0; /* Space between search bar and dropdowns */
+}
+
+.search-bar-container input,
+.dropdowns-container select {
+  margin: 5px; /* Add spacing between elements */
+  width: 200px; /* Set a width for the inputs/selects */
+  max-width: 90%; /* Ensure it doesn't exceed the container */
+}
+
+.search-bar-container button {
+  margin-top: 10px; /* Space above the search button */
+  width: 100px; /* Set width for the button */
+}
+
+
   
   /* Make the input and elements scale down on mobile */
   input[type="text"],
