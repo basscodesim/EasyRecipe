@@ -1,5 +1,5 @@
 import React from 'react';
-import './RecipeCard.css'; // Ensure you have a CSS file for your card styles
+import './RecipeCard.css';
 
 function RecipeCard({ recipe, onClick }) {
   return (
@@ -8,7 +8,7 @@ function RecipeCard({ recipe, onClick }) {
       <h2>{recipe.title}</h2>
       <p>
         {recipe.summary
-          ? recipe.summary.substring(0, 100) + '...' // Display only the first 100 characters
+          ? recipe.summary.substring(0, 100) + '...'
           : 'No summary available.'}
       </p>
       <p>Ready in {recipe.readyInMinutes} minutes | Servings: {recipe.servings}</p>

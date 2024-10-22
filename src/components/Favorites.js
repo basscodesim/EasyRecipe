@@ -1,7 +1,3 @@
-// Favorites
-
-// src/components/Favorites.js
-
 const saveToFavorites = (recipe) => {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     favorites.push(recipe);

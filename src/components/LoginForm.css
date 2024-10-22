@@ -1,0 +1,93 @@
+/* Fullscreen background image with centered form */
+.login-form-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../assets/background.png'); /* Correct path to your image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  /* Centered form box */
+  .login-form {
+    background-color: rgba(255, 255, 255, 0.9); /* Slight transparency for better readability */
+    padding: 50px;
+    width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+    text-align: center; /* Ensures that content inside the form is centered */
+  }
+  
+  h2 {
+    margin-bottom: 30px;
+    color: #024CAA;
+    font-size: 28px; /* Larger heading */
+    font-weight: bold;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    text-align: left; /* Aligns labels and inputs to the left */
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 18px;
+    transition: border-color 0.3s ease;
+  }
+  
+  input:focus {
+    border-color: #024CAA;
+    outline: none;
+  }
+  
+  button {
+    width: 100%; /* Ensures the button takes the full width of the form */
+    padding: 15px;
+    background-color: #024CAA;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  button:hover {
+    background-color: #023C8C;
+    transform: translateY(-3px);
+  }
+  
+  button:active {
+    transform: translateY(0);
+  }
+  
+  .toggle-form {
+    text-align: center;
+    margin-top: 20px;
+    color: #024CAA;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .toggle-form:hover {
+    text-decoration: underline;
+  }
+  
